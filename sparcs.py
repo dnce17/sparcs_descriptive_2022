@@ -4,11 +4,11 @@ from helpers import *
 pd.set_option('display.float_format', lambda x: '%.3f' % x)
 
 # Load in the specific hospital county data
-df_suffolk = pd.read_csv('https://health.data.ny.gov/resource/5dtw-tffi.csv?hospital_county=Suffolk&$limit=50000')
-df_nassau = pd.read_csv('https://health.data.ny.gov/resource/5dtw-tffi.csv?hospital_county=Nassau&$limit=50000')
+df_suffolk = pd.read_csv('https://health.data.ny.gov/resource/5dtw-tffi.csv?hospital_county=Suffolk&$limit=500000')
+df_nassau = pd.read_csv('https://health.data.ny.gov/resource/5dtw-tffi.csv?hospital_county=Nassau&$limit=500000')
 df_merged = pd.concat([df_suffolk, df_nassau])
 
-# print(len(df_suffolks), len(df_nassau), len(df_merged))
+print(len(df_suffolk), len(df_nassau), len(df_merged))
 
 del(df_suffolk)
 del(df_nassau)
@@ -27,35 +27,30 @@ df_merged['total_charges'] = pd.to_numeric(df_merged['total_charges'], errors='c
 df_merged['total_costs'] = pd.to_numeric(df_merged['total_costs'], errors='coerce')
 
 # Isolate the county after numeric conversion for easier use
-df_suffolk = df_merged[df_merged['hospital_county'] == 'Suffolk']
 df_nassau = df_merged[df_merged['hospital_county'] == 'Nassau']
+df_suffolk = df_merged[df_merged['hospital_county'] == 'Suffolk']
 
 # HANDLE MISSING DATA (Only length of stay has missing data after checking)
 # Replace missing vals w/ column's median of the hospital county
-df_suffolk['length_of_stay'].fillna(df_suffolk['length_of_stay'].median(), inplace=True)
 df_nassau['length_of_stay'].fillna(df_nassau['length_of_stay'].median(), inplace=True)
+df_suffolk['length_of_stay'].fillna(df_suffolk['length_of_stay'].median(), inplace=True)
 
-# Confirm there is no more missing values
-print(df_suffolk['length_of_stay'].isna().sum())
+# # Confirm there is no more missing values
 print(df_nassau['length_of_stay'].isna().sum())
+print(df_suffolk['length_of_stay'].isna().sum())
 print(df_merged['total_charges'].isna().sum())
 print(df_merged['total_costs'].isna().sum())
 
 # BASIC DESCRIPTIVE STATISTICS: 
-# Confirm data type is numeric for descriptive statistics
-print(df_suffolk.length_of_stay.dtypes)
-print(df_nassau.length_of_stay.dtypes)
-
-# Suffolk's Stats
-print(df_suffolk.length_of_stay.describe())
-print(df_suffolk.total_charges.describe())
-print(df_suffolk.total_costs.describe())
-
 # Nassau's Stats
 print(df_nassau.length_of_stay.describe())
 print(df_nassau.total_charges.describe())
 print(df_nassau.total_costs.describe())
 
+# Suffolk's Stats
+print(df_suffolk.length_of_stay.describe())
+print(df_suffolk.total_charges.describe())
+print(df_suffolk.total_costs.describe())
 
 # EXPLORING CATEGORICAL VARIABLES: Nassau and Suffolk bar plots 
 # Age Group
@@ -89,5 +84,14 @@ create_hist('length_of_stay', df_nassau, 'Length of Stay', 'Count', 'Nassau Leng
 create_hist('length_of_stay', df_suffolk, 'Length of Stay', 'Count', 'Suffolk Length of Stay Distribution', 5)
 
 # Box plot for total charges
-create_broken_axis_box(df_nassau.total_charges, 'Total Charge', 'Charge', 0)
-create_broken_axis_box(df_suffolk.total_charges, 'Total Charge', 'Charge', 0)
+create_broken_axis_box(df_nassau.total_charges, 'Total Charge', 'Charge', 'Nassau Total Charge', 0)
+create_broken_axis_box(df_suffolk.total_charges, 'Total Charge', 'Charge', 'Suffolk Total Charge', 0)
+
+# SUMMARY REPORT USE
+# How does the total cost vary by age group or type of admission?
+create_bar('age_group', df_nassau, 'Age Groups', 'Total Cost', 'Nassau Age Group vs Cost', age_group_order, 'total_costs')
+create_bar('age_group', df_suffolk, 'Age Groups', 'Total Cost', 'Suffolk Age Group vs Cost', age_group_order, 'total_costs')
+
+# Used to identify potential trends in admission types alongside the chart for it above
+print(df_nassau.type_of_admission.value_counts())
+print(df_suffolk.type_of_admission.value_counts())
