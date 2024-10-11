@@ -9,7 +9,7 @@ NOTES:
 2. pip install -r requirements.txt
     * This installs all packages needed
 3. To run, you can either: 
-    * run each line individually with Shift + Ctrl key
+    * run each line individually
     * python sparcs.py
         * This runs the entire file
 
