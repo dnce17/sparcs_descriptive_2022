@@ -14,7 +14,7 @@ del(df_suffolk)
 del(df_nassau)
 
 # DATA CLEANUP
-# Remove all white space, lower case, replace space with underscore
+# Remove whitespace, dashes, make lower case, replace space with underscore
 df_merged.columns = df_merged.columns.str.strip().str.lower().str.replace(' ', '_').str.replace('(', '').str.replace(')', '').str.replace('_-', '')
 
 # Remove commas from total_charges and total_costs
