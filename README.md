@@ -1,5 +1,9 @@
 # Python Assignment: Descriptive Analytics on SPARCS 2022 Data
 
+NOTES:
+* Analysis was done in [sparcs.py](https://github.com/dnce17/sparcs_descriptive_2022/blob/main/sparcs.py)
+* Functions were created in [helpers.py](https://github.com/dnce17/sparcs_descriptive_2022/blob/main/helpers.py) to help reduce repetitive code
+
 ## Summary Report
 1. What is the average length of stay?
     * Nassau: 5.318 --> about 5 and a third of a day
