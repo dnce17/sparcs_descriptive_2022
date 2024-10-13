@@ -1,4 +1,4 @@
-# Python Assignment: Descriptive Analytics on SPARCS 2022 Data
+# Python: Descriptive Analytics on SPARCS 2022 Data
 
 NOTES:
 * Analysis was done in [sparcs.py](https://github.com/dnce17/sparcs_descriptive_2022/blob/main/sparcs.py)
